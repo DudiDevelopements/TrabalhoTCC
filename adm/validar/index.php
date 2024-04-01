@@ -46,6 +46,10 @@
     <form>
         <input type="text" id="inputPesquisa" onkeypress="pesquisa()" placeholder="Pesquisar por nome ou turma">
     </form>
+        <button id="btnMostrarValidados">Mostrar já validados</button>
+        <button id="btnMostrarNaoValidados">Mostrar somente ainda não validados</button>
+        <button id="btnMostrarTodos">Mostrar todos</button>
+
         <div class='table-responsive'>
             <table class='table'>
                 <thead>

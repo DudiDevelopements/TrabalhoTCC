@@ -88,7 +88,28 @@ function ordenarPorData() {
 }
 $(document).ready(function() {
     ordenarPorValidacao(); // Chama a função de ordenação por validação ao carregar a página
+    
+    // Esconder todas as linhas da tabela
+    $('#tbody tr').hide();
+
+    // Mostrar apenas os itens não validados ao carregar a página
+    $('#tbody tr:has(td:has(form))').show();
+
+    $('#btnMostrarValidados').on('click', function() {
+        $('#tbody tr').hide();
+        $('#tbody tr:has(td:contains("Já validado"))').show();
+    });
+
+    $('#btnMostrarNaoValidados').on('click', function() {
+        $('#tbody tr').hide();
+        $('#tbody tr:has(td:has(form))').show();
+    });
+    
+    $('#btnMostrarTodos').on('click', function() {
+        $('#tbody tr').show();
+    });
 });
+
 var ordenouValidacao = 1;
 function ordenarPorValidacao() {
     if (ordenouValidacao == 0) {
