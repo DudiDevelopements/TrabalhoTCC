@@ -69,21 +69,55 @@ function ordenarPorEmail() {
 }
 
 var ordenouData = 0;
-
 function ordenarPorData() {
     if (ordenouData == 0) {
         $('.table tbody tr').sort(function(a, b) {
-            var dataA = new Date($(a).find('td:eq(6)').text()); // Seleciona a sétima coluna (índice 6) que contém a data
-            var dataB = new Date($(b).find('td:eq(6)').text());
+            var dataA = new Date($(a).find('td:eq(6)').text().split(' ')[0].split('/').reverse().join('-')); // Formata a data para "yyyy-mm-dd"
+            var dataB = new Date($(b).find('td:eq(6)').text().split(' ')[0].split('/').reverse().join('-'));
             return dataA - dataB;
         }).appendTo('.table tbody');
         ordenouData = 1;
     } else {
         $('.table tbody tr').sort(function(a, b) {
-            var dataA = new Date($(a).find('td:eq(6)').text());
-            var dataB = new Date($(b).find('td:eq(6)').text());
+            var dataA = new Date($(a).find('td:eq(6)').text().split(' ')[0].split('/').reverse().join('-'));
+            var dataB = new Date($(b).find('td:eq(6)').text().split(' ')[0].split('/').reverse().join('-'));
             return dataB - dataA;
         }).appendTo('.table tbody');
         ordenouData = 0;
     }
+}
+$(document).ready(function() {
+    ordenarPorValidacao(); // Chama a função de ordenação por validação ao carregar a página
+});
+var ordenouValidacao = 1;
+function ordenarPorValidacao() {
+    if (ordenouValidacao == 0) {
+        $('.table tbody tr').sort(function(a, b) {
+            var validadoA = $(a).find('td:eq(8)').find('form').length; // Verifica se há um formulário na coluna de validação
+            var validadoB = $(b).find('td:eq(8)').find('form').length;
+            return validadoA - validadoB;
+        }).appendTo('.table tbody');
+        ordenouValidacao = 1;
+    } else {
+        $('.table tbody tr').sort(function(a, b) {
+            var validadoA = $(a).find('td:eq(8)').find('form').length;
+            var validadoB = $(b).find('td:eq(8)').find('form').length;
+            return validadoB - validadoA;
+        }).appendTo('.table tbody');
+        ordenouValidacao = 0;
+    }
+}
+
+function pesquisa() {
+    var input = $('#inputPesquisa').val().toLowerCase();
+    $('#tbody tr').each(function() {
+        var encontrado = false;
+        $(this).find('td').each(function() {
+            if ($(this).text().toLowerCase().indexOf(input) > -1) {
+                encontrado = true;
+                return false; // Sai do loop interno se encontrar correspondência
+            }
+        });
+        $(this).toggle(encontrado); // Exibe ou oculta a linha com base na correspondência
+    });
 }

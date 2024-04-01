@@ -43,6 +43,9 @@
     border-radius: 0px !important;
     box-shadow:none; 
     background-color: rgba(0, 0, 0, 0)">
+    <form>
+        <input type="text" id="inputPesquisa" onkeypress="pesquisa()" placeholder="Pesquisar por nome ou turma">
+    </form>
         <div class='table-responsive'>
             <table class='table'>
                 <thead>
@@ -55,10 +58,10 @@
                         <th>Observação</th>
                         <th><button onclick="ordenarPorData()">Data enviada</button></th>
                         <th>Comprovante</th>
-                        <th>Validar</th>
+                        <th><button onclick="ordenarPorValidacao()">Validar</button></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id='tbody'>
                     <?php 
                     $query = $mysql->query("SELECT envios.*, usuarios.nome AS nome_aluno
                     FROM envios
