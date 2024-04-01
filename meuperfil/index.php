@@ -62,7 +62,7 @@
     <?php } ?>
 
     <?php if($query2->num_rows === 0) {
-        if(isset($_SESSION['adm'])) echo "<span>Você ainda recebeu envios no seu nome</span>";
+        if(isset($_SESSION['adm'])) echo "<span>Você ainda não recebeu envios no seu nome</span>";
         else echo "<span>Você ainda não fez envios</span>";
         } else { ?>
     <table>

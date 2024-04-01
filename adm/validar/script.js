@@ -7,7 +7,7 @@ function validar(botao, id){
     var cghoraria = $('#cargahoraria'+ id).val();
     if(cghoraria !== "") {
         $.ajax({
-            url: 'http://localhost/m/TrabalhoTCC/adm/validar/script.php',
+            url: './script.php',
             method: 'POST',
             data: {cargahoraria: cghoraria, comprovanteid: id},
             dataType: 'json',
