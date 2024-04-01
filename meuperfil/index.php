@@ -100,13 +100,20 @@
     <!-- ... -->
 </div>
 
-<?php if(!isset($_SESSION['adm']) and isset($_SESSION['id'])) { ?>
-<div class="container" id="total" style="margin-bottom: 100px;">
-    <h2>Total de Horas</h2>
-    <p>Veja o total de horas acumuladas.</p>
-    <!-- Conteúdo da seção de total de horas -->
-    <!-- ... -->
-</div>
+<?php if(!isset($_SESSION['adm']) and isset($_SESSION['id'])) {
+        $queryMinutos = "SELECT SUM(`carga_horaria`) FROM `envios` WHERE id_aluno='$id_aluno'";
+        $queryMinutos = $mysql->query($queryMinutos) or die("<span style='color: red;'>ERRO</span>");
+        $minutosAcumulados = ($queryMinutos->fetch_row())[0]; 
+        $totalEmHoras = $minutosAcumulados / 60; ?>
+        
+    <div class="container" id="total" style="margin-bottom: 100px;">
+        <h2>Total de Horas: <?php echo $totalEmHoras ?>H</h2>
+        <p>Em minutos: <?php 
+        echo $minutosAcumulados;
+        ?> minutos acumulados</p>
+        <!-- Conteúdo da seção de total de horas -->
+        <!-- ... -->
+    </div>
 <?php } ?>
 
 <footer>
