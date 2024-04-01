@@ -35,7 +35,9 @@
             </ul>
         </nav>
     </header>
-
+    <script type="text/javascript" src="../../scripts/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+    </div>
     <div class="container" style="
     margin-bottom: 10rem; 
     border-radius: 0px !important;
@@ -45,13 +47,13 @@
             <table class='table'>
                 <thead>
                     <tr>
-                        <th>Nome</th>
-                        <th>Email</th>
+                        <th><button onclick="ordenarPorNome()">Nome</button></th>
+                        <th><button onclick="ordenarPorEmail()">Email</button></th>
                         <th>Turma</th>
                         <th>Professor Responsável</th>
                         <th>Tipo de Atividade</th>
                         <th>Observação</th>
-                        <th>Data enviada</th>
+                        <th><button onclick="ordenarPorData()">Data enviada</button></th>
                         <th>Comprovante</th>
                         <th>Validar</th>
                     </tr>
@@ -107,8 +109,6 @@
     <footer>
         <p>&copy; 2024 Validação de Comprovantes. Todos os direitos reservados.</p>
     </footer>
-    <script type="text/javascript" src="jquery-3.7.1.min.js"></script>
-    <script type="text/javascript" src="script.js"></script>
 </body>
 
 </html>

@@ -41,12 +41,14 @@
                 $nome = $_SESSION['nome'];
                 $nome = strtok($nome, " ");
                 $query = $mysql->query("SELECT * FROM `envios` WHERE `prof` = '$nome'") or die($mysql->error);
+                $query2 = $mysql->query("SELECT * FROM `envios` WHERE `prof` = '$nome'") or die($mysql->error);
             } 
         } 
         //Caso seja aluno, loga como aluno e mostra os formularios enviados.
         else {
             $id_aluno = $_SESSION['id'];
             $query = $mysql->query("SELECT * FROM `envios` WHERE id_aluno = $id_aluno") or die($mysql->error);
+            $query2 = $mysql->query("SELECT * FROM `envios` WHERE id_aluno = $id_aluno") or die($mysql->error);
         }
     ?>
 
@@ -55,9 +57,14 @@
     <p>Visualize os comprovantes recebidos</p>
     <?php } else { ?>
     <h2>Comprovantes Enviados</h2>
-    <p>Visualize os comprovantes que você já enviou.</p>
+    <p>Visualize o status dos comprovantes que você enviou.</p>
+    <br>
     <?php } ?>
 
+    <?php if($query2->num_rows === 0) {
+        if(isset($_SESSION['adm'])) echo "<span>Você ainda recebeu envios no seu nome</span>";
+        else echo "<span>Você ainda não fez envios</span>";
+        } else { ?>
     <table>
         <thead>
             <th>Tipo</th>
@@ -68,20 +75,19 @@
             <th>Validado</th>
         </thead>
         <tbody> 
+            
             <?php 
             //$enviados = $query->fetch_assoc();
             //if (empty($enviados)) echo "<h4>Você ainda não fez envios</h4>";
-            function get_validado($item) {
+            function get_validado($item, $cg) {
                 if($item == 1) 
                     return "
-                    <span style='color: green;''><strong>Validado!</strong></span>
-                ";
+                    <span style='color: green;''><strong>Validado! Total: ". $cg. " minutos </strong></span>";
                 else
                     return "
                     <span style='color: red;'><strong>Não validado</strong></span>
                 ";
             }
-            if (empty($query)) echo "<h4>Você ainda não fez envios</h4>";
             while($comprovante = $query->fetch_assoc()) {
                 $path = $comprovante['path'];
             ?>
@@ -91,11 +97,12 @@
                 <td><?php echo $comprovante['obs']; ?></td>
                 <td><?php echo date('d/m/Y H:i', strtotime($comprovante['horario_enviado'])); ?></td>
                 <td><?php echo "<a href='TrabalhoTCC/$path' target='_blank' rel='noopener noreferrer'>Clique aqui</a>"; ?></td>
-                <td><?php echo get_validado($comprovante['validado']) ?></td>
+                <td><?php echo get_validado($comprovante['validado'], $comprovante['carga_horaria']) ?></td>
             </tr>
             <?php } ?>
         </tbody>
     </table>
+    <?php } ?>
     <!-- Conteúdo da seção de comprovantes enviados -->
     <!-- ... -->
 </div>

@@ -98,7 +98,7 @@ if(!isset($_SESSION['id'])) {
 
                 //Faz o arquivo enviado pelo aluno ser permanente no sistema. Caso der erro ele morre o script.
                 if(move_uploaded_file($comprovante, $caminho_gravado)) {
-                    echo "<div><h3 style='color: green; text-align: center;'>Envio bem sucedido.";
+                    //echo "<div><h3 style='color: green; text-align: center;'>Envio bem sucedido.";
                     $caminho_gravado = $mysql->real_escape_string($caminho_gravado);
                     
                     $insertbd = "INSERT INTO `envios` (`id`, `id_aluno`, `email`, `turma`, `prof`, `tipo`, `obs`, `path`, `validado`, `horario_enviado`) 
@@ -106,7 +106,12 @@ if(!isset($_SESSION['id'])) {
                         0, DEFAULT)";
 
                     if($mysql->query($insertbd) === TRUE) {
-                        echo "CODE: 1</h3></div>";
+                        //echo "CODE: 1</h3></div>";
+                        ?>
+                        <script>
+                            alert("Comprovante enviado com sucesso!");
+                        </script>
+                        <?php
                     } else {
                         die("Erro> " . $insertbd . $mysql->error . "</h3></div>");
                     }
