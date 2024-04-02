@@ -23,8 +23,29 @@
 ?>
 
 <header>
+    
+    <div id="wrapper-barra-brasil"> 
+        <nav> 
+            <ul id="lista-barra-brasil" class="list"> 
+                <li><a href="#" id="menu-icon"></a></li> 
+                <li class="list-item">
+                    <a href="http://www.gov.br/economia/pt-br/canais_atendimento/ouvidoria/simplifique" 
+                    class="link-barra">Simplifique!</a></li> <li class="list-item">
+                    <a href="https://www.gov.br/secom/pt-br/acesso-a-informacao/comunicabr/" 
+                    class="link-barra">Comunica BR</a></li> <li class="list-item">
+                    <a href="https://www.gov.br/pt-br/participacao-social/" class="link-barra">Participe</a>
+                </li> 
+                <li class="list-item">
+                    <a href="http://www.gov.br/acessoainformacao/" class="link-barra">Acesso à informação</a>
+                </li> 
+                <li class="list-item"><a href="http://www.planalto.gov.br/legislacao" class="link-barra">Legislação</a></li>
+                <li class="list-item last last-item"><a href="https://gov.br/pt-br/canais-do-executivo-federal" class="link-barra">Canais</a></li> 
+            </ul> 
+        </nav> 
+    </div>
+
     <a href="./"><img src="images/logoifms.png" alt="Logo IFMS" class="logo"></a>
-    <h1>Página Inicial</h1>
+    <h1>SISTEMA DE GERENCIAMENTO DE CARGA HORÁRIA</h1>
     <p>Facilitando o envio, acompanhamento e avaliação de horas extracurriculares.</p>
     <h3>Bem vindo, <?php echo $_SESSION['nome'] ?>!</h3>
 
