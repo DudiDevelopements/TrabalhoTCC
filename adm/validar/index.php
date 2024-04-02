@@ -17,9 +17,9 @@
     ?>
 
     <!-- Jquery para facilitar o uso do ajax -->
-    
 
-    
+
+
 </head>
 
 <body>
@@ -35,7 +35,7 @@
                 </li>
             </ul>
         </nav>
-        
+
         <script type="text/javascript" src="../../scripts/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="script.js"></script>
     </header>
@@ -45,9 +45,9 @@
     border-radius: 0px !important;
     box-shadow:none; 
     background-color: rgba(0, 0, 0, 0)">
-    <form>
-        <input type="text" id="inputPesquisa" onkeypress="pesquisa()" placeholder="Pesquisar por nome ou turma">
-    </form>
+        <form>
+            <input type="text" id="inputPesquisa" onkeypress="pesquisa()" placeholder="Pesquisar por nome ou turma">
+        </form>
         <div id='sortBtns'>
             <button id="btnMostrarValidados">Já validados</button>
             <button id="btnMostrarNaoValidados">Ainda não validados</button>
@@ -69,6 +69,10 @@
                     </tr>
                 </thead>
                 <tbody id='tbody'>
+
+                    <!-- ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... -->
+                    <!-- ... Começo da repetição de tabelas pra listar comprovantes enviados ... -->
+                    <!-- ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... -->
                     <?php 
                     $query = $mysql->query("SELECT envios.*, usuarios.nome AS nome_aluno
                     FROM envios
@@ -78,7 +82,6 @@
                         $comprovanteid = $comprovantes['id'];
                         $hora_enviada = strtotime($comprovantes['horario_enviado']);
                     ?>
-
                     <tr>
                         <td><?php echo $comprovantes['nome_aluno'] ?></td>
                         <td><?php echo $comprovantes['email'] ?></td>
@@ -93,25 +96,29 @@
                             <?php if($comprovantes['validado'] == 0) { ?>
                             <form id="form<?php echo $comprovanteid ?>">
                                 <input style='margin-bottom: 1rem; width: 100% !important;' placeholder="Carga Horária"
-                                    type="number"
-                                    id="cargahoraria<?php echo $comprovanteid ?>">
-                                <button  type="button" id="<?php echo $comprovanteid ?>" onclick="validar(this.id)">
+                                    type="number" id="cargahoraria<?php echo $comprovanteid ?>">
+                                <button type="button" id="<?php echo $comprovanteid ?>" onclick="validar(this.id)">
                                     Validar
                                 </button>
                             </form>
-                            <?php } else { ?> 
-                                <div id="form<?php echo $comprovanteid ?>">
-                                    <span style='color: green'><strong>Já validado!
-                                    <?php
+                            <?php } else { ?>
+                            <div id="form<?php echo $comprovanteid ?>">
+                                <span style='color: green'><strong>Já validado!
+                                        <?php
                                     echo "<br> Carga Horária: ".$comprovantes['carga_horaria']."m</strong></span>";
                                     ?>
-                                    <button type="button" id="<?php echo $comprovanteid ?>"
-                                    style="background-color: #c21414;" onclick="revogar(this.id)">Revogar</button>
-                                </div>
+                                        <button type="button" id="<?php echo $comprovanteid ?>"
+                                            style="background-color: #c21414;"
+                                            onclick="revogar(this.id)">Revogar</button>
+                            </div>
                             <?php }?>
                         </td>
                     </tr>
                     <?php } ?>
+                    <!-- ... ... ... ... ... ... ... ... ... ... ... ... ... ... ...  ... ...-->
+                    <!-- ... Fim da repetição de tabelas pra listar comprovantes enviados ... -->
+                    <!-- ... ... ... ... ... ... ... ... ... ... ... ... ... ... ...  ... ...-->
+
                     <!-- Adicione mais linhas conforme necessário -->
                 </tbody>
             </table>
