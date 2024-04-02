@@ -64,7 +64,7 @@ if(!isset($_SESSION['id'])) {
             </div>
             <div class="form-group">
                 <label for="observacao">Observação:</label>
-                <textarea id="observacao" name="observacao" rows="3"></textarea>
+                <textarea maxlength="500" id="observacao" name="observacao" rows="3"></textarea>
             </div>
             <button type="submit" id="submit-btn" name="enviar_form">Enviar</button>
         </form>

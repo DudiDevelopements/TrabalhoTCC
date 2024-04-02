@@ -1,20 +1,17 @@
-function validar(botao, id){
-    //console.log(botao);
-   // $(botao).submit(function(e) {
-       // e.preventDefault();
-
-       // console.log(e);
+// ... Função ajax de validar ... //
+function validar(id){
     var cghoraria = $('#cargahoraria'+ id).val();
-    if(cghoraria !== "") {
+    if(cghoraria != "") {
         $.ajax({
-            url: './script.php',
+            url: './validar.php',
             method: 'POST',
             data: {cargahoraria: cghoraria, comprovanteid: id},
             dataType: 'json',
             success: function(data) {
                 $('#form'+id).html("<span style='color: green'><strong>Validado com sucesso! <br> Carga Horária: "+data+"m</strong></span>");
             },
-            error: function() {
+            error: function(data) {
+                //alert(data);
                 $('#form'+id).html("<span style='color: red'><strong>Erro ao validar! Tente novamente mais tarde</strong></span>");
             }
         }).done(function(result) {
@@ -27,8 +24,29 @@ function validar(botao, id){
     } else {
         alert("Por favor insira uma carga horária");
     }
-    //}); 
 }
+
+// ... Função ajax de revogar ... //
+function revogar(id) {
+    console.log('chamou', id);
+    console.log('form'+id);
+    $.ajax({
+        url: './revogar.php',
+        method: 'POST',
+        data: {comprovanteid: id},
+        dataType: 'json',
+        success: function() {
+            $('#form'+id).html("<span style='color: green'><strong>Revogado com sucesso! Por favor atualize a página.</strong></span>");
+        },
+        error: function() {
+            $('#form'+id).html("<span style='color: #DC143C'><strong>Falha ao revogar. Tente novamente mais tarde</strong></span>");
+        }
+    });
+}
+
+
+
+/* ... Organização e pesquisa ... */
 var ordenouNome = 0;
 function ordenarPorNome() {
     if(ordenouNome == 0) {
@@ -72,20 +90,21 @@ var ordenouData = 0;
 function ordenarPorData() {
     if (ordenouData == 0) {
         $('.table tbody tr').sort(function(a, b) {
-            var dataA = new Date($(a).find('td:eq(6)').text().split(' ')[0].split('/').reverse().join('-')); // Formata a data para "yyyy-mm-dd"
-            var dataB = new Date($(b).find('td:eq(6)').text().split(' ')[0].split('/').reverse().join('-'));
+            var dataA = new Date($(a).find('td:eq(6)').text().split(' ')[0].split('/').reverse().join('-')).getTime();
+            var dataB = new Date($(b).find('td:eq(6)').text().split(' ')[0].split('/').reverse().join('-')).getTime();
             return dataA - dataB;
         }).appendTo('.table tbody');
         ordenouData = 1;
     } else {
         $('.table tbody tr').sort(function(a, b) {
-            var dataA = new Date($(a).find('td:eq(6)').text().split(' ')[0].split('/').reverse().join('-'));
-            var dataB = new Date($(b).find('td:eq(6)').text().split(' ')[0].split('/').reverse().join('-'));
+            var dataA = new Date($(a).find('td:eq(6)').text().split(' ')[0].split('/').reverse().join('-')).getTime();
+            var dataB = new Date($(b).find('td:eq(6)').text().split(' ')[0].split('/').reverse().join('-')).getTime();
             return dataB - dataA;
         }).appendTo('.table tbody');
         ordenouData = 0;
     }
 }
+
 $(document).ready(function() {
     ordenarPorValidacao(); // Chama a função de ordenação por validação ao carregar a página
     

@@ -19,6 +19,7 @@
     <!-- Jquery para facilitar o uso do ajax -->
     
 
+    
 </head>
 
 <body>
@@ -34,9 +35,10 @@
                 </li>
             </ul>
         </nav>
+        
+        <script type="text/javascript" src="../../scripts/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="script.js"></script>
     </header>
-    <script type="text/javascript" src="../../scripts/jquery-3.7.1.min.js"></script>
-    <script type="text/javascript" src="script.js"></script>
     </div>
     <div class="container" style="
     margin-bottom: 10rem; 
@@ -46,10 +48,11 @@
     <form>
         <input type="text" id="inputPesquisa" onkeypress="pesquisa()" placeholder="Pesquisar por nome ou turma">
     </form>
-        <button id="btnMostrarValidados">Mostrar já validados</button>
-        <button id="btnMostrarNaoValidados">Mostrar somente ainda não validados</button>
-        <button id="btnMostrarTodos">Mostrar todos</button>
-
+        <div id='sortBtns'>
+            <button id="btnMostrarValidados">Já validados</button>
+            <button id="btnMostrarNaoValidados">Ainda não validados</button>
+            <button id="btnMostrarTodos">Mostrar todos</button>
+        </div>
         <div class='table-responsive'>
             <table class='table'>
                 <thead>
@@ -62,7 +65,7 @@
                         <th>Observação</th>
                         <th><button onclick="ordenarPorData()">Data enviada</button></th>
                         <th>Comprovante</th>
-                        <th><button onclick="ordenarPorValidacao()">Validar</button></th>
+                        <th><button onclick="ordenarPorValidacao()">Validar </br> (em minutos)</button></th>
                     </tr>
                 </thead>
                 <tbody id='tbody'>
@@ -73,7 +76,7 @@
                     while($comprovantes = $query->fetch_assoc()) {
                         $path = $comprovantes['path'];
                         $comprovanteid = $comprovantes['id'];
-                        
+                        $hora_enviada = strtotime($comprovantes['horario_enviado']);
                     ?>
 
                     <tr>
@@ -83,27 +86,29 @@
                         <td><?php echo $comprovantes['prof'] ?></td>
                         <td><?php echo $comprovantes['tipo'] ?></td>
                         <td><?php echo $comprovantes['obs'] ?></td>
-                        <td><?php echo date('d/m/Y H:i', strtotime($comprovantes['horario_enviado'])); ?></td>
+                        <td><?php echo date('d/m/Y', $hora_enviada) . "</br>às " . date('H:i', $hora_enviada); ?></td>
                         <td><a href=<?php echo "'../$path'"?> target="_blank">Ver Comprovante</a></td>
                         <td>
 
                             <?php if($comprovantes['validado'] == 0) { ?>
-                            <form <?php echo "id='form".$comprovanteid."'" ?>>
+                            <form id="form<?php echo $comprovanteid ?>">
                                 <input style='margin-bottom: 1rem; width: 100% !important;' placeholder="Carga Horária"
                                     type="number"
-                                    <?php echo 'id="cargahoraria'.$comprovanteid.'"' ?>>
-                                <button <?php echo 'form="validar'.$comprovanteid.'"' ?> 
-                                type="submit" <?php echo "id='$comprovanteid'" ?> onclick="validar(this.name, this.id)"
-                                    <?php echo 'name="validar'.$comprovanteid.'"' ?>>
+                                    id="cargahoraria<?php echo $comprovanteid ?>">
+                                <button  type="button" id="<?php echo $comprovanteid ?>" onclick="validar(this.id)">
                                     Validar
                                 </button>
                             </form>
-                            <?php }     
-                            else {
-                                echo "<span style='color: green'><strong>Já validado!";
-                                echo "<br> Carga Horária: ".$comprovantes['carga_horaria']."m</strong></span>";
-                            }
-                            ?>
+                            <?php } else { ?> 
+                                <div id="form<?php echo $comprovanteid ?>">
+                                    <span style='color: green'><strong>Já validado!
+                                    <?php
+                                    echo "<br> Carga Horária: ".$comprovantes['carga_horaria']."m</strong></span>";
+                                    ?>
+                                    <button type="button" id="<?php echo $comprovanteid ?>"
+                                    style="background-color: #c21414;" onclick="revogar(this.id)">Revogar</button>
+                                </div>
+                            <?php }?>
                         </td>
                     </tr>
                     <?php } ?>
