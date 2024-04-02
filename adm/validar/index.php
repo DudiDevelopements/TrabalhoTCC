@@ -90,7 +90,7 @@
                         <td><?php echo $comprovantes['tipo'] ?></td>
                         <td><?php echo $comprovantes['obs'] ?></td>
                         <td><?php echo date('d/m/Y', $hora_enviada) . "</br>às " . date('H:i', $hora_enviada); ?></td>
-                        <td><a href=<?php echo "'../$path'"?> target="_blank">Ver Comprovante</a></td>
+                        <td><a id='link' href=<?php echo "'../$path'"?> target="_blank">Ver Comprovante</a></td>
                         <td>
 
                             <?php if($comprovantes['validado'] == 0) { ?>
@@ -105,7 +105,9 @@
                             <div id="form<?php echo $comprovanteid ?>">
                                 <span style='color: green'><strong>Já validado!
                                         <?php
-                                    echo "<br> Carga Horária: ".$comprovantes['carga_horaria']."m</strong></span>";
+                                    $cargaHorariaEmHoras = ($comprovantes['carga_horaria']/60);
+                                    $cargaHorariaEmHoras = str_replace('.', ',', number_format($cargaHorariaEmHoras, 1));
+                                    echo "<br> Carga Horária: ".$cargaHorariaEmHoras." horas</strong></span>";
                                     ?>
                                         <button type="button" id="<?php echo $comprovanteid ?>"
                                             style="background-color: #c21414;"

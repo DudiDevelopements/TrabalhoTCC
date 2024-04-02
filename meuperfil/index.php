@@ -4,6 +4,24 @@
 <!-- Lateral direita -->
 <div class="sidebar-right"></div>
 
+<?php
+    //Caso seja professor/servidor, ele loga como administrador e mostra os recebidos no nome dele.
+    if(isset($_SESSION['adm'])) {
+        if($_SESSION['adm'] === TRUE) {
+            $nome = $_SESSION['nome'];
+            $nome = strtok($nome, " ");
+            $query = $mysql->query("SELECT * FROM `envios` WHERE `prof` = '$nome'") or die($mysql->error);
+            $query2 = $mysql->query("SELECT * FROM `envios` WHERE `prof` = '$nome'") or die($mysql->error);
+        } 
+    } 
+    //Caso seja aluno, loga como aluno e mostra os formularios enviados.
+    else {
+        $id_aluno = $_SESSION['id'];
+        $query = $mysql->query("SELECT * FROM `envios` WHERE id_aluno = $id_aluno") or die($mysql->error);
+        $query2 = $mysql->query("SELECT * FROM `envios` WHERE id_aluno = $id_aluno") or die($mysql->error);
+    }
+?>
+
 <header>
     <a href="./"><img src="images/logoifms.png" alt="Logo IFMS" class="logo"></a>
     <h1>Página Inicial</h1>
@@ -24,33 +42,69 @@
 
 </header>
 
+
+<!-- Seção disponível apenas para aluno, verifica se usuario logado é aluno e mostra seção -->
 <?php if(!isset($_SESSION['adm']) and isset($_SESSION['id'])) { ?>
 <div class="container" id="enviar">
-    <h2>Enviar Comprovantes</h2>
-    <p>Aqui você pode enviar os comprovantes de suas atividades extracurriculares.</p>
-    <!-- Conteúdo da seção de envio de comprovantes -->
-    <!-- ... -->
+    <a href="envio">
+        <h2>Enviar Comprovantes</h2>
+        <p>Aqui você pode enviar os comprovantes de suas atividades extracurriculares.</p>
+        <!-- Conteúdo da seção de envio de comprovantes -->
+        <!-- ... -->
+    </a>
 </div>
 <?php } ?>
 
-<div class="container" id="enviados">
-    <?php
-        //Caso seja professor/servidor, ele loga como administrador e mostra os recebidos no nome dele.
-        if(isset($_SESSION['adm'])) {
-            if($_SESSION['adm'] === TRUE) {
-                $nome = $_SESSION['nome'];
-                $nome = strtok($nome, " ");
-                $query = $mysql->query("SELECT * FROM `envios` WHERE `prof` = '$nome'") or die($mysql->error);
-                $query2 = $mysql->query("SELECT * FROM `envios` WHERE `prof` = '$nome'") or die($mysql->error);
-            } 
-        } 
-        //Caso seja aluno, loga como aluno e mostra os formularios enviados.
-        else {
-            $id_aluno = $_SESSION['id'];
-            $query = $mysql->query("SELECT * FROM `envios` WHERE id_aluno = $id_aluno") or die($mysql->error);
-            $query2 = $mysql->query("SELECT * FROM `envios` WHERE id_aluno = $id_aluno") or die($mysql->error);
-        }
+
+<!-- ... ... Seção de total de horas ... ... -->
+<?php 
+if(!isset($_SESSION['adm']) and isset($_SESSION['id'])) {
+    $queryMinutos = "SELECT SUM(`carga_horaria`) FROM `envios` WHERE id_aluno='$id_aluno'";
+    $queryMinutos = $mysql->query($queryMinutos) or die("<span style='color: red;'>ERRO</span>");
+    $minutosAcumulados = ($queryMinutos->fetch_row())[0]; 
+    $totalEmHoras = $minutosAcumulados / 60; 
+    $totalEmHorasF = str_replace('.', ',', number_format($totalEmHoras, 1));          
     ?>
+    <div class="container" id="total">
+        <h2>Total de Horas: <?php echo $totalEmHorasF ?>H</h2>
+        
+        <p>1º semestre: <?php 
+        $totalEmHoras = number_format($totalEmHoras, 1);
+        if ($totalEmHoras < 40) echo str_replace('.', ',', $totalEmHoras);
+        else echo '40'; ?> de 40 horas completas</p>
+        <p>2º semestre: <?php 
+        if ($totalEmHoras < 80 && $totalEmHoras > 40) echo str_replace('.', ',', ($totalEmHoras - 40));
+        else if ($totalEmHoras >= 80) echo '40'; 
+        else echo '0,0'; ?> de 40 horas completas</p>
+        <p>3º semestre: <?php 
+        if ($totalEmHoras < 120 && $totalEmHoras > 80) echo str_replace('.', ',', ($totalEmHoras - 80));
+        else if ($totalEmHoras >= 120) echo '40'; 
+        else echo '0,0'; ?> de 40 horas completas</p>
+        <p>4º semestre: <?php 
+        if ($totalEmHoras < 160 && $totalEmHoras > 120) echo str_replace('.', ',', ($totalEmHoras - 120));
+        else if ($totalEmHoras >= 160) echo '40'; 
+        else echo '0,0'; ?> de 40 horas completas</p>
+        <p>5º semestre: <?php 
+        if ($totalEmHoras < 200 && $totalEmHoras > 160) echo str_replace('.', ',', ($totalEmHoras - 160));
+        else if ($totalEmHoras >= 200) echo '40'; 
+        else echo '0,0'; ?> de 40 horas completas</p>
+        <p>6º semestre: <?php 
+        if ($totalEmHoras < 240 && $totalEmHoras > 200) echo str_replace('.', ',', ($totalEmHoras - 200));
+        else if ($totalEmHoras >= 240) echo '40'; 
+        else echo '0,0'; ?> de 40 horas completas</p>
+        
+        <p style="font-size: 14px;">Em minutos: <?php 
+        echo $minutosAcumulados/1;
+        ?> minutos acumulados</p>
+        <?php if($totalEmHoras >= 240) echo "<h3 style='text-align: center; color: green;'>
+        <strong>Parabéns! Você concluiu sua carga de atividades complementárias!</strong></h3>" ?>
+    </div>
+<?php 
+} ?>
+<!-- ... ... Fim da seção de total de horas ... ... -->
+
+
+<div class="container" id="enviados" style="margin-bottom: 100px;">
 
     <?php if(isset($_SESSION['adm']) and isset($_SESSION['id'])) { ?>
     <h2>Comprovantes recebidos</h2>
@@ -77,15 +131,20 @@
         <tbody> 
             
             <?php 
-            //$enviados = $query->fetch_assoc();
-            //if (empty($enviados)) echo "<h4>Você ainda não fez envios</h4>";
             function get_validado($item, $cg) {
-                if($item == 1) 
+                if($item == 1) { 
+                    $cargaHorariaEmHoras = ($cg/60);
+                    $cargaHorariaEmHoras = str_replace('.', ',', number_format($cargaHorariaEmHoras, 1));
+                                    
                     return "
-                    <span style='color: green;''><strong>Validado! Total: ". $cg. " minutos </strong></span>";
-                else
+                    <span style='color: green;''>
+                        <strong>Validado! Total: ". $cargaHorariaEmHoras . " horas </strong>
+                    </span>";
+                } else
                     return "
-                    <span style='color: red;'><strong>Não validado</strong></span>
+                    <span style='color: red;'>
+                        <strong>Não validado</strong>
+                    </span>
                 ";
             }
             while($comprovante = $query->fetch_assoc()) {
@@ -96,7 +155,7 @@
                 <td><?php echo $comprovante['prof']; ?></td>
                 <td><?php echo $comprovante['obs']; ?></td>
                 <td><?php echo date('d/m/Y H:i', strtotime($comprovante['horario_enviado'])); ?></td>
-                <td><?php echo "<a href='TrabalhoTCC/$path' target='_blank' rel='noopener noreferrer'>Clique aqui</a>"; ?></td>
+                <td><?php echo "<a href='TrabalhoTCC/$path' id='link' target='_blank' rel='noopener noreferrer'>Link do arquivo</a>"; ?></td>
                 <td><?php echo get_validado($comprovante['validado'], $comprovante['carga_horaria']) ?></td>
             </tr>
             <?php } ?>
@@ -106,22 +165,6 @@
     <!-- Conteúdo da seção de comprovantes enviados -->
     <!-- ... -->
 </div>
-
-<?php if(!isset($_SESSION['adm']) and isset($_SESSION['id'])) {
-        $queryMinutos = "SELECT SUM(`carga_horaria`) FROM `envios` WHERE id_aluno='$id_aluno'";
-        $queryMinutos = $mysql->query($queryMinutos) or die("<span style='color: red;'>ERRO</span>");
-        $minutosAcumulados = ($queryMinutos->fetch_row())[0]; 
-        $totalEmHoras = $minutosAcumulados / 60; ?>
-        
-    <div class="container" id="total" style="margin-bottom: 100px;">
-        <h2>Total de Horas: <?php echo $totalEmHoras ?>H</h2>
-        <p>Em minutos: <?php 
-        echo $minutosAcumulados;
-        ?> minutos acumulados</p>
-        <!-- Conteúdo da seção de total de horas -->
-        <!-- ... -->
-    </div>
-<?php } ?>
 
 <footer>
     <p>&copy; 2024 Sistema de Gerenciamento de Carga Horária</p>
