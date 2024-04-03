@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 01, 2024 at 07:45 AM
+-- Generation Time: Apr 02, 2024 at 04:23 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `usuarios_ifms`
 --
+CREATE DATABASE IF NOT EXISTS `usuarios_ifms` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `usuarios_ifms`;
 
 -- --------------------------------------------------------
 
@@ -68,15 +70,15 @@ CREATE TABLE `envios` (
 --
 
 INSERT INTO `envios` (`id`, `id_aluno`, `email`, `turma`, `prof`, `tipo`, `obs`, `path`, `validado`, `horario_enviado`, `carga_horaria`) VALUES
-(7, 1, 'supergamerbr39@gmail.com', '20210', 'Helmuth', 'Prática profissional integradora e/ou vivência acadêmica', '', '../arquivos/comprovantes_aluno/1/1Marcilio6608aadb0a4275.87293664.png', 1, '2024-03-31 00:14:19.042386', 30),
-(8, 1, 'marcilinhobarbosa@hotmail.com', '20210', 'Helmuth', 'Unidade curriculares optativas/eletivas', 'te amo', '../arquivos/comprovantes_aluno/1/1Marcilio6608f4848ed2c8.20106534.png', 1, '2024-03-31 05:28:36.585800', 60),
-(9, 2, 'marci@gmail.om', '1029', 'Helmuth', 'Práticas artístico-culturais', '', '../arquivos/comprovantes_aluno/2/2Joao6608f4ba919844.75342543.png', 1, '2024-03-31 05:29:30.596723', 30),
-(10, 2, 'jao@love66', '10210', 'Helmuth', 'Prática profissional integradora e/ou vivência acadêmica', '', '../arquivos/comprovantes_aluno/2/2Joao6608f58f802d20.60562053.png', 1, '2024-03-31 05:33:03.525403', 10),
-(11, 1, 'supergamerbr39@gmail.com', '1029', 'Paulo', 'Prática profissional integradora e/ou vivência acadêmica', '', '../arquivos/comprovantes_aluno/1/1Marcilio660a046e7a3db9.12920021.png', 1, '2024-04-01 00:48:46.501512', 300),
-(12, 3, 'marcilinhobarbosa@hotmail.com', '3090', 'Paulo', 'Práticas artístico-culturais', '', '../arquivos/comprovantes_aluno/3/3Barbosa660a2b4ae337d3.06347388.png', 1, '2024-04-01 03:34:34.931056', 300),
-(13, 1, 'supergamerbr39@gmail.com', '20210', 'Helmuth', 'Práticas desportivas', '', '../arquivos/comprovantes_aluno/1/1Marcilio660a3238e51a83.43506350.png', 1, '2024-04-01 04:04:08.939138', 30),
-(14, 1, 'marcilinhobarbosa@hotmail.com', '10210', 'Paulo', 'Projeto de ensino, pesquisa ou extensão', '', '../arquivos/comprovantes_aluno/1/1Marcilio660a34cdcde203.59565008.png', 1, '2024-04-01 04:15:09.844330', 60),
-(15, 1, 'supergamerbr39@gmail.com', '10210', 'Helmuth', 'Prática profissional integradora e/ou vivência acadêmica', '', '../arquivos/comprovantes_aluno/1/1Marcilio660a35abe8d210.12267440.png', 0, '2024-04-01 04:18:51.954485', NULL),
+(7, 1, 'supergamerbr39@gmail.com', '20210', 'Helmuth', 'Prática profissional integradora e/ou vivência acadêmica', '', '../arquivos/comprovantes_aluno/1/1Marcilio6608aadb0a4275.87293664.png', 0, '2024-03-31 00:14:19.042386', 13800),
+(8, 1, 'marcilinhobarbosa@hotmail.com', '20210', 'Helmuth', 'Unidade curriculares optativas/eletivas', 'te amo', '../arquivos/comprovantes_aluno/1/1Marcilio6608f4848ed2c8.20106534.png', 0, '2024-03-31 05:28:36.585800', NULL),
+(9, 2, 'marci@gmail.om', '1029', 'Helmuth', 'Práticas artístico-culturais', '', '../arquivos/comprovantes_aluno/2/2Joao6608f4ba919844.75342543.png', 0, '2024-03-31 05:29:30.596723', NULL),
+(10, 2, 'jao@love66', '10210', 'Helmuth', 'Prática profissional integradora e/ou vivência acadêmica', '', '../arquivos/comprovantes_aluno/2/2Joao6608f58f802d20.60562053.png', 0, '2024-03-31 05:33:03.525403', NULL),
+(11, 1, 'supergamerbr39@gmail.com', '1029', 'Paulo', 'Prática profissional integradora e/ou vivência acadêmica', '', '../arquivos/comprovantes_aluno/1/1Marcilio660a046e7a3db9.12920021.png', 0, '2024-04-01 00:48:46.501512', NULL),
+(12, 3, 'marcilinhobarbosa@hotmail.com', '3090', 'Paulo', 'Práticas artístico-culturais', '', '../arquivos/comprovantes_aluno/3/3Barbosa660a2b4ae337d3.06347388.png', 0, '2024-04-01 03:34:34.931056', NULL),
+(13, 1, 'supergamerbr39@gmail.com', '20210', 'Helmuth', 'Práticas desportivas', '', '../arquivos/comprovantes_aluno/1/1Marcilio660a3238e51a83.43506350.png', 0, '2024-04-01 04:04:08.939138', NULL),
+(14, 1, 'marcilinhobarbosa@hotmail.com', '10210', 'Paulo', 'Projeto de ensino, pesquisa ou extensão', '', '../arquivos/comprovantes_aluno/1/1Marcilio660a34cdcde203.59565008.png', 0, '2024-04-01 04:15:09.844330', 0),
+(15, 1, 'supergamerbr39@gmail.com', '10210', 'Helmuth', 'Prática profissional integradora e/ou vivência acadêmica', '', '../arquivos/comprovantes_aluno/1/1Marcilio660a35abe8d210.12267440.png', 0, '2024-04-01 04:18:51.954485', 0),
 (16, 4, 'supergamerbr39@gmail.com', '10210', 'Helmuth', 'Projeto de ensino, pesquisa ou extensão', '', '../arquivos/comprovantes_aluno/4/4Zaibro660a3d5e78e258.70923848.png', 0, '2024-04-01 04:51:42.495449', NULL);
 
 -- --------------------------------------------------------
